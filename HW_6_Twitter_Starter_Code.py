@@ -7,7 +7,7 @@ from requests_oauthlib import OAuth1
 import json
 import requests
 
-# import secrets as secrets # file that contains your OAuth credentials
+import secrets as secrets # file that contains your OAuth credentials
 
 CACHE_FILENAME = "twitter_cache.json"
 CACHE_DICT = {}
@@ -17,10 +17,10 @@ CACHE_DICT = {}
 # TWITTER_ACCESS_TOKEN="231115939-rJ7NkeXyCbBB0T7SWmvHAS49O9c4zyqp6iIVaKB4"
 # TWITTER_ACCESS_TOKEN_SECRET="LV0sFAVK2dLpFwGNa1pSgLX57tkjoX50kXmC4LuJTfuAn"
 
-client_key = "dbdRgotzvMxOOCY1dJHpXw8Bg"
-client_secret = "eZmRANDGE8zGFg5jEOwwKwglFR2OmcvKncSdPgJUqPTnOAE8oc"
-access_token = "231115939-rJ7NkeXyCbBB0T7SWmvHAS49O9c4zyqp6iIVaKB4"
-access_token_secret = "LV0sFAVK2dLpFwGNa1pSgLX57tkjoX50kXmC4LuJTfuAn"
+client_key = secrets.TWITTER_API_KEY
+client_secret = secrets.TWITTER_API_SECRET
+access_token = secrets.TWITTER_ACCESS_TOKEN
+access_token_secret = secrets.TWITTER_ACCESS_TOKEN_SECRET
 
 oauth = OAuth1(client_key,
             client_secret=client_secret,
