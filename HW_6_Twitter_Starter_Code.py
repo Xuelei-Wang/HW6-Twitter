@@ -7,15 +7,20 @@ from requests_oauthlib import OAuth1
 import json
 import requests
 
-import secrets as secrets # file that contains your OAuth credentials
+# import secrets as secrets # file that contains your OAuth credentials
 
 CACHE_FILENAME = "twitter_cache.json"
 CACHE_DICT = {}
 
-client_key = secrets.TWITTER_API_KEY
-client_secret = secrets.TWITTER_API_SECRET
-access_token = secrets.TWITTER_ACCESS_TOKEN
-access_token_secret = secrets.TWITTER_ACCESS_TOKEN_SECRET
+# TWITTER_API_KEY="dbdRgotzvMxOOCY1dJHpXw8Bg"
+# TWITTER_API_SECRET="eZmRANDGE8zGFg5jEOwwKwglFR2OmcvKncSdPgJUqPTnOAE8oc"
+# TWITTER_ACCESS_TOKEN="231115939-rJ7NkeXyCbBB0T7SWmvHAS49O9c4zyqp6iIVaKB4"
+# TWITTER_ACCESS_TOKEN_SECRET="LV0sFAVK2dLpFwGNa1pSgLX57tkjoX50kXmC4LuJTfuAn"
+
+client_key = "dbdRgotzvMxOOCY1dJHpXw8Bg"
+client_secret = "eZmRANDGE8zGFg5jEOwwKwglFR2OmcvKncSdPgJUqPTnOAE8oc"
+access_token = "231115939-rJ7NkeXyCbBB0T7SWmvHAS49O9c4zyqp6iIVaKB4"
+access_token_secret = "LV0sFAVK2dLpFwGNa1pSgLX57tkjoX50kXmC4LuJTfuAn"
 
 oauth = OAuth1(client_key,
             client_secret=client_secret,
@@ -158,12 +163,14 @@ def make_request_with_cache(baseurl, hashtag, count):
         JSON
     '''
 
-
+    CACHE_DICT = open_cache()
     params = {'q':hashtag, 'count':count}
     key = construct_unique_key(baseurl,params)
     if key in CACHE_DICT:
+        print("fetching cached data")
         return CACHE_DICT[key]
     else:
+        print("making new request")
         CACHE_DICT[key] = make_request(baseurl,params)
         save_cache(CACHE_DICT)
         return CACHE_DICT[key]
@@ -192,10 +199,10 @@ def find_most_common_cooccurring_hashtag(tweet_data, hashtag_to_ignore):
         for hashtags in i['entities']['hashtags']:
             text = hashtags['text']
             if text.lower() != hashtag_to_ignore.lower():
-                if text not in text_dict:
-                    text_dict[text] = 1
+                if text.lower() not in text_dict:
+                    text_dict[text.lower()] = 1
                 else:
-                    text_dict[text] = 0
+                    text_dict[text.lower()] = 0
     sort_orders = sorted(text_dict.items(), key=lambda x: x[1], reverse=True)
     return f"#{sort_orders[0][0]}"
 
